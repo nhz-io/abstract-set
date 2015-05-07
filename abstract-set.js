@@ -67,6 +67,9 @@ module.exports = AbstractElement = (function(superClass) {
         result[key] = value;
       }
     }
+    if (!result.length) {
+      delete result.length;
+    }
     return result;
   };
 

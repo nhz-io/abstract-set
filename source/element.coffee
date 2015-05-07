@@ -28,6 +28,7 @@ module.exports = class AbstractElement extends Array
       if @hasOwnProperty key
         if typeof value?.toJSON is 'function' then value = value.toJSON()
         result[key] = value
+    delete result.length unless result.length
     return result
 
   valueOf: ->
