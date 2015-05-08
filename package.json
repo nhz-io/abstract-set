@@ -1,6 +1,6 @@
 {
   "name": "abstract-set",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Abstract Set",
   "main": "dist/index.js",
   "scripts": {

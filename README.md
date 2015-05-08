@@ -23,6 +23,9 @@ gulp
 
 VERSION
 -------
+#### 0.0.3
+* Total remake
+
 #### 0.0.2
 * Remove length property on toJSON when length is 0
 

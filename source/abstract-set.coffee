@@ -1,3 +1,1 @@
-do -> this.AbstractSet =
-  Set:     require './set'
-  Element: require './element'
+do -> this.AbstractSet = require './set'
