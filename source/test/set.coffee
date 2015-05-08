@@ -6,6 +6,7 @@ handler = (items) ->
   add: (item) -> items.push item
   remove: (item) -> items.splice (items.indexOf item), 1
   toJSON: (item) -> item
+  valueOf: (item) -> item
 
 describe 'AbstractSet', ->
   describe '#constructor(items...)', ->
@@ -241,3 +242,21 @@ describe 'AbstractSet', ->
       json[0].should.be.equal 1
       json[1].should.be.equal 2
       json[2].should.be.equal 3
+
+  describe '#valueOf()', ->
+    it 'should return an array of items', ->
+      set = Set 1, 2, 3
+      val = set.valueOf()
+      val.should.be.an.instanceof Array
+      val.length.should.be.equal 3
+      val[0].should.be.equal 1
+      val[1].should.be.equal 2
+      val[2].should.be.equal 3
+
+      set = (Set 1, 2, 3).handler handler
+      val = set.valueOf()
+      val.should.be.an.instanceof Array
+      val.length.should.be.equal 3
+      val[0].should.be.equal 1
+      val[1].should.be.equal 2
+      val[2].should.be.equal 3

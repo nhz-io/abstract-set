@@ -157,3 +157,14 @@ module.exports = class Set
         result.push (if typeof item?.toJSON is 'function' then item.toJSON() else item)
 
     return result
+
+  valueOf: ->
+    result = []
+    if typeof @_handler is 'function'
+      for item in @items
+        result.push @_handler(@items).valueOf item
+    else
+      for item in @items
+        result.push (if typeof item?.valueOf is 'function' then item.valueOf() else item)
+
+    return result

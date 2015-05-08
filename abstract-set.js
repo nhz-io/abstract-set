@@ -290,6 +290,25 @@ module.exports = Set = (function() {
     return result;
   };
 
+  Set.prototype.valueOf = function() {
+    var i, item, j, len, len1, ref, ref1, result;
+    result = [];
+    if (typeof this._handler === 'function') {
+      ref = this.items;
+      for (i = 0, len = ref.length; i < len; i++) {
+        item = ref[i];
+        result.push(this._handler(this.items).valueOf(item));
+      }
+    } else {
+      ref1 = this.items;
+      for (j = 0, len1 = ref1.length; j < len1; j++) {
+        item = ref1[j];
+        result.push((typeof (item != null ? item.valueOf : void 0) === 'function' ? item.valueOf() : item));
+      }
+    }
+    return result;
+  };
+
   return Set;
 
 })();
