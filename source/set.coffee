@@ -146,3 +146,14 @@ module.exports = class Set
         set.items.push item if intersect
 
     return set
+
+  toJSON: ->
+    result = []
+    if typeof @_handler is 'function'
+      for item in @items
+        result.push @_handler(@items).toJSON item
+    else
+      for item in @items
+        result.push (if typeof item?.toJSON is 'function' then item.toJSON() else item)
+
+    return result

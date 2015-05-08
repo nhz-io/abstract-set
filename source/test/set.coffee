@@ -5,6 +5,7 @@ handler = (items) ->
   has: (item) -> -1 isnt items.indexOf item
   add: (item) -> items.push item
   remove: (item) -> items.splice (items.indexOf item), 1
+  toJSON: (item) -> item
 
 describe 'AbstractSet', ->
   describe '#constructor(items...)', ->
@@ -222,3 +223,21 @@ describe 'AbstractSet', ->
       intersect.should.not.be.equal set
       intersect.items.length.should.be.equal 1
       intersect.has(3).should.be.equal true
+
+  describe '#toJSON()', ->
+    it 'should return an array of items', ->
+      set = Set 1, 2, 3
+      json = set.toJSON()
+      json.should.be.an.instanceof Array
+      json.length.should.be.equal 3
+      json[0].should.be.equal 1
+      json[1].should.be.equal 2
+      json[2].should.be.equal 3
+
+      set = (Set 1, 2, 3).handler handler
+      json = set.toJSON()
+      json.should.be.an.instanceof Array
+      json.length.should.be.equal 3
+      json[0].should.be.equal 1
+      json[1].should.be.equal 2
+      json[2].should.be.equal 3
