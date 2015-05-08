@@ -15,8 +15,43 @@ module.exports = Set = (function() {
       this.items = items.slice();
       this._handler = void 0;
       this.handler = function(handler) {
+        var _;
         if (arguments.length > 0) {
-          this._handler = handler;
+          if (typeof handler === 'function') {
+            _ = (handler([])) || {};
+            if (_.has && _.add && _.remove && _.json && _.value) {
+              this._handler = handler;
+            } else {
+              this._handler = function(items) {
+                var methods;
+                methods = (handler(items)) || {};
+                methods.has || (methods.has = function(item) {
+                  return -1 !== items.indexOf(item);
+                });
+                methods.add || (methods.add = function(item) {
+                  if (-1 === items.indexOf(item)) {
+                    return items.push(item);
+                  }
+                });
+                methods.remove || (methods.remove = function(item) {
+                  var idx;
+                  if (-1 !== (idx = items.indexOf(item))) {
+                    return items.splice(idx, 1);
+                  }
+                });
+                methods.json || (methods.json = function(item) {
+                  return item;
+                });
+                methods.value || (methods.value = function(item) {
+                  return item;
+                });
+                return methods;
+              };
+            }
+          }
+          if (!handler) {
+            this._handler = void 0;
+          }
           return this;
         }
         return this._handler;
@@ -99,7 +134,7 @@ module.exports = Set = (function() {
       for (i = 0, len = items.length; i < len; i++) {
         item = items[i];
         if (!this._handler(set.items).has(item)) {
-          set.items.push(item);
+          this._handler(set.items).add(item);
         }
       }
     } else {
@@ -146,7 +181,7 @@ module.exports = Set = (function() {
         for (j = 0, len1 = items.length; j < len1; j++) {
           item = items[j];
           if (!this._handler(set.items).has(item)) {
-            set.items.push(item);
+            this._handler(set.items).add(item);
           }
         }
       }
@@ -176,7 +211,7 @@ module.exports = Set = (function() {
         for (j = 0, len1 = items.length; j < len1; j++) {
           item = items[j];
           if (!((this._handler(this.items).has(item)) || this._handler(set.items).has(item))) {
-            set.items.push(item);
+            this._handler(set.items).add(item);
           }
         }
       }
@@ -278,7 +313,7 @@ module.exports = Set = (function() {
       ref = this.items;
       for (i = 0, len = ref.length; i < len; i++) {
         item = ref[i];
-        result.push(this._handler(this.items).toJSON(item));
+        result.push(this._handler(this.items).json(item));
       }
     } else {
       ref1 = this.items;
@@ -297,7 +332,7 @@ module.exports = Set = (function() {
       ref = this.items;
       for (i = 0, len = ref.length; i < len; i++) {
         item = ref[i];
-        result.push(this._handler(this.items).valueOf(item));
+        result.push(this._handler(this.items).value(item));
       }
     } else {
       ref1 = this.items;

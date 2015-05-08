@@ -23,6 +23,11 @@ gulp
 
 VERSION
 -------
+#### 0.0.4
+* added toJSON()
+* added valueOf()
+* fallback to default handler if particular handler is missing
+
 #### 0.0.3
 * Total remake
 

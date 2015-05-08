@@ -5,8 +5,8 @@ handler = (items) ->
   has: (item) -> -1 isnt items.indexOf item
   add: (item) -> items.push item
   remove: (item) -> items.splice (items.indexOf item), 1
-  toJSON: (item) -> item
-  valueOf: (item) -> item
+  json: (item) -> item
+  value: (item) -> item
 
 describe 'AbstractSet', ->
   describe '#constructor(items...)', ->
