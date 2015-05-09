@@ -23,6 +23,10 @@ gulp
 
 VERSION
 -------
+#### 0.0.5
+* changed empty() to call handler method
+* added size()
+
 #### 0.0.4
 * added toJSON()
 * added valueOf()

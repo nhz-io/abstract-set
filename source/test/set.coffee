@@ -7,6 +7,8 @@ handler = (items) ->
   remove: (item) -> items.splice (items.indexOf item), 1
   json: (item) -> item
   value: (item) -> item
+  empty: -> items.length is 0
+  size: -> items.length
 
 describe 'AbstractSet', ->
   describe '#constructor(items...)', ->
@@ -34,7 +36,10 @@ describe 'AbstractSet', ->
       set = new Set
       _handler = ->
       set.handler(_handler)._handler.should.not.be.equal _handler
-      _handler = -> has: (->), add: (->), remove: (->), json: (->), value: (->)
+      _handler = ->
+        has: (->), add: (->), remove: (->)
+        json: (->), value: (->)
+        size: (->), empty: (->)
       set.handler(_handler)._handler.should.be.equal _handler
 
   describe '#clone()', ->
@@ -55,8 +60,24 @@ describe 'AbstractSet', ->
       set.items[2].should.be.equal clone.items[2]
 
   describe '#empty()', ->
-    it 'should return true if set is empty', -> (new Set).empty().should.be.equal true
-    it 'should return false if set isnt empty', -> (Set 1).empty().should.be.equal false
+    it 'should return true if set is empty', ->
+      (new Set).empty().should.be.equal true
+      (new Set).handler(handler).empty().should.be.equal true
+      (new Set).handler(->).empty().should.be.equal true
+
+    it 'should return false if set isnt empty', ->
+      (Set 1).empty().should.be.equal false
+      (Set 1).handler(handler).empty().should.be.equal false
+      (Set 1).handler(->).empty().should.be.equal false
+
+  describe '#size()', ->
+    it 'should return the size of the set', ->
+      (new Set).size().should.be.equal 0
+      (Set 1).size().should.be.equal 1
+      (new Set).handler(handler).size().should.be.equal 0
+      (Set 1).handler(handler).size().should.be.equal 1
+      (new Set).handler(->).size().should.be.equal 0
+      (Set 1).handler(->).size().should.be.equal 1
 
   describe '#subset(superset)', ->
     it 'should return true if the set is a subset of superset', ->

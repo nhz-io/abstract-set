@@ -7,7 +7,7 @@ module.exports = class Set
         if arguments.length > 0
           if typeof handler is 'function'
             _ = (handler []) or {}
-            if _.has and _.add and _.remove and _.json and _.value
+            if _.has and _.add and _.remove and _.json and _.value and _.empty and _.size
               @_handler = handler
             else
               @_handler = (items) ->
@@ -19,6 +19,8 @@ module.exports = class Set
                   if -1 isnt idx = items.indexOf item then items.splice idx, 1
                 methods.json ||= (item) -> item
                 methods.value ||= (item) -> item
+                methods.empty ||= -> items.length is 0
+                methods.size ||= -> items.length
                 return methods
           unless handler then @_handler = undefined
           return this
@@ -33,7 +35,15 @@ module.exports = class Set
     set.items = @items.slice()
     return set
 
-  empty: -> @items.length is 0
+  empty: ->
+    if typeof @_handler is 'function'
+      return @_handler(@items).size() is 0
+    return @items.length is 0
+
+  size: ->
+    if typeof @_handler is 'function'
+      return @_handler(@items).size()
+    return @items.length
 
   subset: (set) ->
     items = (if set instanceof Set then set.items else set) or []
