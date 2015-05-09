@@ -19,7 +19,7 @@ module.exports = Set = (function() {
         if (arguments.length > 0) {
           if (typeof handler === 'function') {
             _ = (handler([])) || {};
-            if (_.has && _.add && _.remove && _.json && _.value) {
+            if (_.has && _.add && _.remove && _.json && _.value && _.empty && _.size) {
               this._handler = handler;
             } else {
               this._handler = function(items) {
@@ -44,6 +44,12 @@ module.exports = Set = (function() {
                 });
                 methods.value || (methods.value = function(item) {
                   return item;
+                });
+                methods.empty || (methods.empty = function() {
+                  return items.length === 0;
+                });
+                methods.size || (methods.size = function() {
+                  return items.length;
                 });
                 return methods;
               };
@@ -71,7 +77,17 @@ module.exports = Set = (function() {
   };
 
   Set.prototype.empty = function() {
+    if (typeof this._handler === 'function') {
+      return this._handler(this.items).size() === 0;
+    }
     return this.items.length === 0;
+  };
+
+  Set.prototype.size = function() {
+    if (typeof this._handler === 'function') {
+      return this._handler(this.items).size();
+    }
+    return this.items.length;
   };
 
   Set.prototype.subset = function(set) {
