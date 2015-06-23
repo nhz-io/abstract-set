@@ -15,7 +15,7 @@ npm install --save abstract-set
 Build
 -----
 ```
-git clone https://github.com/nhz-io/abstract-set.git
+git clone https://github.com/NHZio/abstract-set.git
 cd abstract-set
 npm install
 gulp
@@ -42,8 +42,8 @@ LICENSE
 -------
 #### [MIT](LICENSE)
 
-[travis-image]: https://travis-ci.org/nhz-io/abstract-set.svg
-[travis-url]: https://travis-ci.org/nhz-io/abstract-set
+[travis-image]: https://travis-ci.org/NHZio/abstract-set.svg
+[travis-url]: https://travis-ci.org/NHZio/abstract-set
 
 [npm-image]: https://nodei.co/npm/abstract-set.png
 [npm-url]: https://nodei.co/npm/abstract-set
